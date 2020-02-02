@@ -62,25 +62,26 @@ class ViewController: UIViewController, UITextFieldDelegate {
         view.endEditing(true)
         
         // Замена запятую на точку - чтобы работало на устройстве с русской локалью
-        if let valueRed = Float(textfieldRed.text?.replacingOccurrences(of: ",", with: ".") ?? "") {
+        if let valueRed = Float(textfieldRed.text?.replacingOccurrences(of: ",", with: ".") ?? ""), 0...1 ~= valueRed {
             sliderRed.setValue(valueRed, animated: true)
             sliderRedChanged()
-            textfieldRed.text = ""
         }
-        if let valueGreen = Float(textfieldGreen.text?.replacingOccurrences(of: ",", with: ".") ?? "") {
+        if let valueGreen = Float(textfieldGreen.text?.replacingOccurrences(of: ",", with: ".") ?? ""), 0...1 ~= valueGreen {
             sliderGreen.setValue(valueGreen, animated: true)
             sliderGreenChanged()
-            textfieldGreen.text = ""
         }
-        if let valueBlue = Float(textfieldBlue.text?.replacingOccurrences(of: ",", with: ".") ?? "") {
+        if let valueBlue = Float(textfieldBlue.text?.replacingOccurrences(of: ",", with: ".") ?? ""), 0...1 ~= valueBlue {
             sliderBlue.setValue(valueBlue, animated: true)
             sliderBlueChanged()
-            textfieldBlue.text = ""
         }
+        
+        textfieldRed.text = ""
+        textfieldGreen.text = ""
+        textfieldBlue.text = ""
     }
     
     func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
-        if let text = textField.text, let number = Float(text.replacingOccurrences(of: ",", with: ".")), 0.0...1.0 ~= number {
+        if let value = Float(textField.text?.replacingOccurrences(of: ",", with: ".") ?? ""), 0.0...1.0 ~= value {
             return true
         } else {
             showAlert(with: "Incorrect input", and: "Enter a number from 0 to 1")
